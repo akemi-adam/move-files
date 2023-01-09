@@ -57,13 +57,16 @@ public class HandleFile
 	 * Sets the value of the base path where the files are located
 	 * 
 	 * @param path
-	 * @throws IOException
 	 * 
 	 * @return void
 	 */
-	public static void setBasePath(String path) throws IOException
+	public static void setBasePath(String path)
 	{
-		setSetting(path, "BASE_PATH", 0);
+		try {
+			setSetting(path, "BASE_PATH", 0);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -82,13 +85,16 @@ public class HandleFile
 	 * Defines the path where files will be moved to
 	 * 
 	 * @param path
-	 * @throws IOException
 	 * 
 	 * @return void
 	 */
-	public static void setRelativePath(String path) throws IOException
+	public static void setRelativePath(String path)
 	{
-		setSetting(path, "RELATIVE_PATH", 1);
+		try {
+			setSetting(path, "RELATIVE_PATH", 1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

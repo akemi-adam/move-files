@@ -14,6 +14,8 @@ import javax.swing.JFileChooser;
 import java.io.File;
 import java.io.IOException;
 
+import java.util.function.Consumer;
+
 public class Menu extends JMenuBar
 {
 	private JFileChooser chooserBaseField;
@@ -47,25 +49,9 @@ public class Menu extends JMenuBar
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				chooserBaseField = new JFileChooser();
+				chooserBaseField = setupChooser("Escolha o diretório");
 
-				chooserBaseField.setCurrentDirectory(new File("."));
-
-				chooserBaseField.setDialogTitle("Escolha o diretório");
-
-				chooserBaseField.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-				chooserBaseField.setAcceptAllFileFilterUsed(false);
-
-				if (chooserBaseField.showOpenDialog(chooserBaseField) == JFileChooser.APPROVE_OPTION) {
-
-					try {
-						HandleFile.setBasePath(chooserBaseField.getSelectedFile().getAbsolutePath());
-					} catch (IOException exception) {
-						exception.printStackTrace();
-					}
-
-				}
+				chooserAction(chooserBaseField, HandleFile::setBasePath);
 			}
 
 		});
@@ -75,27 +61,32 @@ public class Menu extends JMenuBar
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				chooserRelativeField = new JFileChooser();
+				chooserRelativeField = setupChooser("Escolha o diretório");
 
-				chooserRelativeField.setCurrentDirectory(new File("."));
-
-				chooserRelativeField.setDialogTitle("Escolha o diretório");
-
-				chooserRelativeField.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-				chooserRelativeField.setAcceptAllFileFilterUsed(false);
-
-				if (chooserRelativeField.showOpenDialog(chooserRelativeField) == JFileChooser.APPROVE_OPTION) {
-
-					try {
-						HandleFile.setRelativePath(chooserRelativeField.getSelectedFile().getAbsolutePath());
-					} catch (IOException exception) {
-						exception.printStackTrace();
-					}
-
-				}
+				chooserAction(chooserRelativeField, HandleFile::setRelativePath);
 			}
 			
 		});
+	}
+
+	protected JFileChooser setupChooser(String title)
+	{
+		JFileChooser chooser = new JFileChooser();
+
+		chooser.setCurrentDirectory(new File("."));
+
+		chooser.setDialogTitle(title);
+
+		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+		chooser.setAcceptAllFileFilterUsed(false);
+
+		return chooser;
+	}
+
+	protected void chooserAction(JFileChooser chooser, Consumer<String> method)
+	{
+		if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION)
+			method.accept(chooser.getSelectedFile().getAbsolutePath());
 	}
 }
