@@ -14,8 +14,9 @@ public class HandleFile
 	/**
 	 * Returns the value of a configuration variable from the settings.txt file
 	 * 
-	 * @param index
+	 * @param index | File Line Index
 	 * @throws IOException
+	 * @author <a href="https://github.com/akemi-adam">Akemi Adam</a>
 	 *
 	 * @return String
 	 */
@@ -33,10 +34,11 @@ public class HandleFile
 	/**
 	 * Sets the value of a configuration variable in the settings.txt file
 	 * 
-	 * @param path
-	 * @param var
-	 * @param index
+	 * @param path | Path of the directory to be saved
+	 * @param var | Variable name related to this path
+	 * @param index | Line position
 	 * @throws IOException
+	 * @author <a href="https://github.com/akemi-adam">Akemi Adam</a>
 	 * 
 	 * @return void
 	 */
@@ -56,7 +58,8 @@ public class HandleFile
 	/**
 	 * Sets the value of the base path where the files are located
 	 * 
-	 * @param path
+	 * @param path | Path of the directory to be saved
+	 * @author <a href="https://github.com/akemi-adam">Akemi Adam</a>
 	 * 
 	 * @return void
 	 */
@@ -73,6 +76,7 @@ public class HandleFile
 	 * Returns the value of the base path where the files are located
 	 * 
 	 * @throws IOException
+	 * @author <a href="https://github.com/akemi-adam">Akemi Adam</a>
 	 * 
 	 * @return String
 	 */
@@ -84,7 +88,8 @@ public class HandleFile
 	/**
 	 * Defines the path where files will be moved to
 	 * 
-	 * @param path
+	 * @param path | Path of the directory to be saved
+	 * @author <a href="https://github.com/akemi-adam">Akemi Adam</a>
 	 * 
 	 * @return void
 	 */
@@ -101,6 +106,7 @@ public class HandleFile
 	 * Returns the path where the files will be moved to
 	 * 
 	 * @throws IOException
+	 * @author <a href="https://github.com/akemi-adam">Akemi Adam</a>
 	 * 
 	 * @return String
 	 */
@@ -112,16 +118,15 @@ public class HandleFile
 	/**
 	 * Create a new directory
 	 * 
-	 * @param fileName
+	 * @param folderName | Name of the new directory
 	 * @throws IOException
+	 * @author <a href="https://github.com/akemi-adam">Akemi Adam</a>
 	 * 
 	 * @return File
 	 */
-	public static File createNewDirectory(String fileName) throws IOException
+	public static File createNewDirectory(String folderName) throws IOException
 	{
-		String rootPath = getRelativePath();
-
-		File newFolder = new File(rootPath + "\\" + fileName);
+		File newFolder = new File(getRelativePath() + "\\" + folderName);
 
 		newFolder.mkdir();
 
@@ -131,16 +136,14 @@ public class HandleFile
 	/**
 	 * Searches for and returns all files in the base directory
 	 * 
-	 * @param fileName
 	 * @throws IOException
+	 * @author <a href="https://github.com/akemi-adam">Akemi Adam</a>
 	 * 
 	 * @return File[]
 	 */
-	public static File[] setup(String fileName) throws IOException
+	public static File[] setup() throws IOException
 	{
-		String rootPath = getBasePath();
-		
-		File currentPath = new File(rootPath);
+		File currentPath = new File(getBasePath());
 
 		File[] files = currentPath.listFiles();
 
@@ -150,16 +153,17 @@ public class HandleFile
 	/**
 	 * Moves and renames all files from the base directory to the relative directory
 	 * 
-	 * @param fileName
+	 * @param name | New folder name and base file name
 	 * @throws IOException
+	 * @author <a href="https://github.com/akemi-adam">Akemi Adam</a>
 	 * 
 	 * @return void
 	 */
-	public static void moveFiles(String fileName) throws IOException
+	public static void moveFiles(String name) throws IOException
 	{
-		File[] files = setup(fileName);
+		File[] files = setup();
 
-		File newFolder = createNewDirectory(fileName);
+		File newFolder = createNewDirectory(name);
 
 		int i = 0;
 		
@@ -172,7 +176,7 @@ public class HandleFile
 
 					Path fileMovePath = Paths.get(file.getAbsolutePath());
 
-					Path targetPath = Paths.get(newFolder.getAbsolutePath() + "\\" + fileName + " " + i + ".jpg");
+					Path targetPath = Paths.get(newFolder.getAbsolutePath() + "\\" + name + " " + i + ".jpg");
 
 					Files.move(fileMovePath, targetPath);
 

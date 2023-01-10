@@ -30,10 +30,17 @@ public class Form extends JPanel implements ActionListener
 		add(this.button);
 	}
 
+	/**
+	 * Calls the function to move the files under the new name. It also resets the value of the text field
+	 * 
+	 * @param e | Object of the event
+	 * @return void
+	 */
 	public void actionPerformed(ActionEvent e)
 	{
 		try {
 			HandleFile.moveFiles(this.textField.getText());
+			this.textField.setText("");
 		} catch (IOException exception) {
 			exception.printStackTrace();
 		}
